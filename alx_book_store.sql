@@ -1,35 +1,36 @@
-CREAT TABLE Books (
-    book_id(Primary key)
-    title VARCHAR(130)
-    author_id (Foreign Key)
-    price DOUBLE
-    publication_date DATE
+CREATE TABLE IF NOT EXISTS Authors (
+    author_id INT AUTO_INCREMENT PRIMARY KEY,
+    author_name VARCHAR(255) NOT NULL
+);
 
-)
+CREATE TABLE IF NOT EXISTS Books (
+    book_id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    author_id INT,
+    price DECIMAL(10, 2) NOT NULL,
+    published_date DATE,
+    FOREIGN KEY (author_id) REFERENCES authors(author_id)
+);
 
-CREAT TABLE Authors (
-    author_id(Primary Key)
-    author_name VARCHAR(215)
-)
+CREATE TABLE IF NOT EXISTS Customers (
+    customer_id INT AUTO_INCREMENT PRIMARY KEY,
+    customer_name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    address VARCHAR(255)
+);
 
-CREAT TABLE Customers (
-    Customer_id (Primary Key)
-    customer_name VARCHAR(215)
-    email VARCHAR(215)
-    address TEXT
+CREATE TABLE IF NOT EXISTS Orders (
+    order_id INT AUTO_INCREMENT PRIMARY KEY,
+    customer_id INT,
+    order_date DATE NOT NULL,
+    FOREIGN KEY (customer_id) REFERENCES Customers(customer_id)
+);
 
-)
-
-CREAT TABLE Orders (
-    order_id (Primary Key)
-    customer_id (Foreign Key)
-    order_date DATE
-
-)
-
-CREAT TABLE Order_Details (
-    orderdetailid (Primary Key)
-    order_id (Foreign Key)
-    book_id (Foreign Key)
-    quantity DOUBLE
-)
+CREATE TABLE IF NOT EXISTS Order_Details (
+    order_detail_id INT AUTO_INCREMENT PRIMARY KEY,
+    order_id INT,
+    book_id INT,
+    quantity INT NOT NULL,
+    FOREIGN KEY (order_id) REFERENCES Orders(order_id),
+    FOREIGN KEY (book_id) REFERENCES Books(book_id)
+);
